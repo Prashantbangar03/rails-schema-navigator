@@ -218,9 +218,9 @@ export class SchemaIndex {
 
   activeProjectLabel(): string {
     if (!this.activeProject) {
-      return 'Rails Schema Explorer';
+      return 'Rails Schema Navigator';
     }
-    return `Rails Schema Explorer — ${this.activeProject.name}`;
+    return `Rails Schema Navigator — ${this.activeProject.name}`;
   }
 }
 
@@ -231,4 +231,8 @@ export function getSchemaIndex(context: vscode.ExtensionContext): SchemaIndex {
     indexInstance = new SchemaIndex(context);
   }
   return indexInstance;
+}
+
+export function resetSchemaIndexForTests(): void {
+  indexInstance = null;
 }

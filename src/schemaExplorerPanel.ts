@@ -60,7 +60,7 @@ export class SchemaExplorerPanel {
 
     const panel = vscode.window.createWebviewPanel(
       'schemaExplorerPanel',
-      'Rails Schema Explorer',
+      'Rails Schema Navigator',
       column ?? vscode.ViewColumn.One,
       {
         enableScripts: true,

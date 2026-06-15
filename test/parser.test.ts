@@ -1,11 +1,15 @@
 import assert from 'node:assert/strict';
-import test from 'node:test';
+import { beforeEach, test } from 'node:test';
 
 const {
   normalizeTypeName,
   parseSchemaRb,
   parseStructureSql,
 } = require('../out/parser');
+
+beforeEach(() => {
+  require('./helpers/reset').resetTestEnvironment();
+});
 
 const STRUCTURE_SQL = `
 CREATE TYPE public.order_status AS ENUM (

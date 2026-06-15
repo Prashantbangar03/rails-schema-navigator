@@ -7,7 +7,7 @@ export class SchemaStatusBar {
   constructor() {
     this.item = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 50);
     this.item.command = 'schemaExplorer.open';
-    this.item.tooltip = 'Open Rails Schema Explorer';
+    this.item.tooltip = 'Open Rails Schema Navigator';
   }
 
   update(label: string | null): void {
@@ -31,4 +31,8 @@ export function getSchemaStatusBar(): SchemaStatusBar {
     statusBar = new SchemaStatusBar();
   }
   return statusBar;
+}
+
+export function resetSchemaStatusBarForTests(): void {
+  statusBar = null;
 }

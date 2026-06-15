@@ -1,7 +1,7 @@
 {
-  "name": "rails-schema-explorer",
-  "displayName": "Rails Schema Explorer",
-  "description": "Interactive Rails schema explorer for db/structure.sql and db/schema.rb — tables, FKs, enums, views, and model integration.",
+  "name": "rails-schema-navigator",
+  "displayName": "Rails Schema Navigator",
+  "description": "Navigate Rails db/structure.sql and db/schema.rb visually — tables, columns, foreign keys, PostgreSQL enums, views, join tables, and ActiveRecord model links.",
   "version": "1.0.0",
   "publisher": "prashantbangar03",
   "author": {
@@ -15,12 +15,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Prashantbangar03/rails-schema-explorer.git"
+    "url": "https://github.com/Prashantbangar03/rails-schema-navigator.git"
   },
   "bugs": {
-    "url": "https://github.com/Prashantbangar03/rails-schema-explorer/issues"
+    "url": "https://github.com/Prashantbangar03/rails-schema-navigator/issues"
   },
-  "homepage": "https://github.com/Prashantbangar03/rails-schema-explorer#readme",
+  "homepage": "https://github.com/Prashantbangar03/rails-schema-navigator#readme",
+  "qna": "https://github.com/Prashantbangar03/rails-schema-navigator/issues",
   "capabilities": {
     "untrustedWorkspaces": {
       "supported": true
@@ -34,19 +35,36 @@
     "vscode": "^1.85.0"
   },
   "categories": [
+    "Visualization",
     "Other"
   ],
   "keywords": [
     "rails",
     "ruby",
     "ruby on rails",
-    "postgresql",
+    "rails schema",
+    "schema navigator",
     "schema.rb",
     "structure.sql",
+    "postgresql",
+    "postgres",
     "database",
+    "database schema",
+    "db schema",
     "active record",
+    "activerecord",
     "foreign keys",
-    "migrations"
+    "foreign key",
+    "migrations",
+    "join table",
+    "many-to-many",
+    "enum",
+    "postgresql enum",
+    "schema explorer",
+    "erd",
+    "table viewer",
+    "cursor",
+    "vscode"
   ],
   "activationEvents": [
     "onCommand:schemaExplorer.open",
@@ -62,37 +80,37 @@
     "commands": [
       {
         "command": "schemaExplorer.open",
-        "title": "Rails Schema: Open Explorer",
-        "category": "Rails Schema Explorer",
+        "title": "Rails Schema Navigator: Open",
+        "category": "Rails Schema Navigator",
         "icon": "$(database)"
       },
       {
         "command": "schemaExplorer.openFromModel",
-        "title": "Rails Schema: Open Explorer for Model",
-        "category": "Rails Schema Explorer",
+        "title": "Rails Schema Navigator: Open from Model",
+        "category": "Rails Schema Navigator",
         "icon": "$(database)"
       },
       {
         "command": "schemaExplorer.findTable",
-        "title": "Rails Schema: Find Table",
-        "category": "Rails Schema Explorer",
+        "title": "Rails Schema Navigator: Find Table",
+        "category": "Rails Schema Navigator",
         "icon": "$(search)"
       },
       {
         "command": "schemaExplorer.switchProject",
-        "title": "Rails Schema: Switch Project",
-        "category": "Rails Schema Explorer",
+        "title": "Rails Schema Navigator: Switch Project",
+        "category": "Rails Schema Navigator",
         "icon": "$(repo)"
       },
       {
         "command": "schemaExplorer.refresh",
-        "title": "Rails Schema: Refresh",
-        "category": "Rails Schema Explorer",
+        "title": "Rails Schema Navigator: Refresh",
+        "category": "Rails Schema Navigator",
         "icon": "$(refresh)"
       }
     ],
     "configuration": {
-      "title": "Rails Schema Explorer",
+      "title": "Rails Schema Navigator",
       "properties": {
         "schemaExplorer.followEditor": {
           "type": "boolean",
@@ -145,12 +163,17 @@
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
-    "test": "npm run compile && tsc -p test && node --test out-test/**/*.test.js",
-    "test:compile": "tsc -p test"
+    "test": "npm run compile && tsc -p test && node --require ./out-test/helpers/register-vscode-mock.js --test --test-concurrency=1 out-test/**/*.test.js",
+    "test:coverage": "npm run compile && tsc -p test && c8 --check-coverage --lines 80 --functions 80 --branches 80 --statements 80 --include 'out/**/*.js' --exclude 'out-test/**' node --require ./out-test/helpers/register-vscode-mock.js --test --test-concurrency=1 out-test/**/*.test.js",
+    "test:compile": "tsc -p test",
+    "package": "vsce package --no-dependencies --no-rewrite-relative-links",
+    "publish:marketplace": "vsce publish --no-dependencies"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
     "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "^3.9.2",
+    "c8": "^10.1.3",
     "typescript": "^5.3.0"
   }
 }

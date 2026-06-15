@@ -1,17 +1,17 @@
-# Rails Schema Explorer
+# Rails Schema Navigator
 
 <p align="center">
-  <img src="images/icon.png" alt="Rails Schema Explorer icon" width="128" />
+  <img src="images/icon.png" alt="Rails Schema Navigator icon" width="128" />
 </p>
 
-**Interactive explorer for Rails `db/structure.sql` and `db/schema.rb`.**
+**Navigate Rails `db/structure.sql` and `db/schema.rb` visually** — search tables, trace foreign keys, inspect PostgreSQL enums and views, compare columns, and jump to ActiveRecord models. Built for Ruby on Rails developers using VS Code and Cursor.
 
 Turn a 2,000-line PostgreSQL dump or Rails schema file into a searchable UI — tables, columns, foreign keys, constraints, PostgreSQL enums, views, join tables, and one-click jumps to `app/models`.
 
 Works in **VS Code** and **Cursor**. This extension is **Rails-only** (not Prisma, MySQL dumps, or generic SQL).
 
 <p align="center">
-  <img src="images/hero.png" alt="Rails Schema Explorer main view — sidebar, table detail, columns and foreign keys" width="900" />
+  <img src="images/hero.png" alt="Rails Schema Navigator main view — sidebar, table detail, columns and foreign keys" width="900" />
 </p>
 
 ## Why use it
@@ -35,14 +35,14 @@ Works in **VS Code** and **Cursor**. This extension is **Rails-only** (not Prism
 ### From VS Code Marketplace
 
 1. Open **Extensions** (`Cmd+Shift+X` / `Ctrl+Shift+X`)
-2. Search **Rails Schema Explorer**
+2. Search **Rails Schema Navigator**
 3. Click **Install**
 4. Open a Rails repo that contains a schema file
 
 Or from the command line:
 
 ```bash
-code --install-extension prashantbangar03.rails-schema-explorer
+code --install-extension prashantbangar03.rails-schema-navigator
 ```
 
 ### From VSIX (teams / offline)
@@ -50,7 +50,7 @@ code --install-extension prashantbangar03.rails-schema-explorer
 ```bash
 npm run compile
 npx @vscode/vsce package --no-dependencies
-code --install-extension rails-schema-explorer-1.0.0.vsix
+code --install-extension rails-schema-navigator-1.0.0.vsix
 ```
 
 Reload the window after installing.
@@ -59,13 +59,13 @@ Reload the window after installing.
 
 1. Open a Rails app in VS Code / Cursor
 2. Press **`Cmd+Alt+S`** (macOS) or **`Ctrl+Alt+S`** (Windows/Linux)  
-   — or run **`Rails Schema: Open Explorer`** from the Command Palette
+   — or run **`Rails Schema Navigator: Open`** from the Command Palette
 3. Click a table in the sidebar to inspect columns, constraints, and FKs
 
 **From the editor**
 
 - Open `db/structure.sql` or `db/schema.rb` → click the **database** icon in the editor title bar
-- Open any `app/models/*.rb` file (not concerns) → **Open Explorer for Model** jumps to that table
+- Open any `app/models/*.rb` file (not concerns) → **Open from Model** jumps to that table
 
 ## Features
 
@@ -119,7 +119,7 @@ Collapsible sections per table (state saved per table):
 When several Rails apps are in one workspace:
 
 - Header **project picker** (30% width) + table search (70%)
-- **`Rails Schema: Switch Project`** from Command Palette
+- **`Rails Schema Navigator: Switch Project`** from Command Palette
 - Optionally **follow the active editor** (see Settings)
 
 ### Stale schema banner
@@ -135,10 +135,10 @@ If the schema file is older than recent migrations:
 
 | Action | Command | macOS | Win/Linux |
 |--------|---------|-------|-----------|
-| Open explorer | `Rails Schema: Open Explorer` | `Cmd+Alt+S` | `Ctrl+Alt+S` |
-| Find table | `Rails Schema: Find Table` | `Ctrl+Shift+J` | `Ctrl+Shift+J` |
-| Refresh | `Rails Schema: Refresh` | `Cmd+Shift+R` * | `Ctrl+Shift+R` * |
-| Switch project | `Rails Schema: Switch Project` | — | — |
+| Open navigator | `Rails Schema Navigator: Open` | `Cmd+Alt+S` | `Ctrl+Alt+S` |
+| Find table | `Rails Schema Navigator: Find Table` | `Ctrl+Shift+J` | `Ctrl+Shift+J` |
+| Refresh | `Rails Schema Navigator: Refresh` | `Cmd+Shift+R` * | `Ctrl+Shift+R` * |
+| Switch project | `Rails Schema Navigator: Switch Project` | — | — |
 
 \* When the explorer panel is focused.
 
@@ -181,7 +181,7 @@ Default shortcuts may conflict with other extensions or custom keybindings:
 | `Ctrl+Shift+J` | Join lines / panel toggles in some setups |
 | `Cmd+Shift+R` / `Ctrl+Shift+R` | Only active when the explorer panel is focused |
 
-Rebind under **Keyboard Shortcuts** → search `Rails Schema`.
+Rebind under **Keyboard Shortcuts** → search `Rails Schema Navigator`.
 
 ## Use cases
 
@@ -194,7 +194,7 @@ Rebind under **Keyboard Shortcuts** → search `Rails Schema`.
 ## Develop from source
 
 ```bash
-cd schema-explorer-vscode
+cd rails-schema-navigator
 npm install
 npm run compile
 npm test
@@ -227,7 +227,7 @@ Press **F5** to launch an Extension Development Host.
 From the extension directory:
 
 ```bash
-cd schema-explorer-vscode
+cd rails-schema-navigator
 npm run compile
 npx @vscode/vsce login prashantbangar03
 # paste your PAT when prompted
@@ -243,12 +243,12 @@ npx @vscode/vsce publish -p <YOUR_PAT>
 
 After publish, the extension will appear at:
 
-`https://marketplace.visualstudio.com/items?itemName=prashantbangar03.rails-schema-explorer`
+`https://marketplace.visualstudio.com/items?itemName=prashantbangar03.rails-schema-navigator`
 
 Users can install with:
 
 ```bash
-code --install-extension prashantbangar03.rails-schema-explorer
+code --install-extension prashantbangar03.rails-schema-navigator
 ```
 
 ### Updating a published version
@@ -260,7 +260,7 @@ code --install-extension prashantbangar03.rails-schema-explorer
 ## Project layout
 
 ```
-schema-explorer-vscode/
+rails-schema-navigator/
 ├── src/
 │   ├── parser.ts              # structure.sql + schema.rb parsing
 │   ├── schemaIndex.ts         # Load/cache schema per project

@@ -1,10 +1,12 @@
 # Changelog
 
-All notable changes to **Rails Schema Explorer** are documented in this file.
+All notable changes to **Rails Schema Navigator** are documented in this file.
 
 ## [1.0.0] - 2026-06-15
 
 ### Added
+
+- Published as **Rails Schema Navigator** (`rails-schema-navigator`) on the VS Code Marketplace
 
 - Interactive explorer for Rails `db/structure.sql` and `db/schema.rb`
 - Searchable sidebar for tables and views with join-table **⇄** badges
@@ -24,4 +26,4 @@ All notable changes to **Rails Schema Explorer** are documented in this file.
 - Webview file open actions validate workspace paths
 - Stale dump commands restricted to `rails db:structure:dump` and `rails db:schema:dump`
 
-[1.0.0]: https://github.com/Prashantbangar03/rails-schema-explorer/releases/tag/v1.0.0
+[1.0.0]: https://github.com/Prashantbangar03/rails-schema-navigator/releases/tag/v1.0.0

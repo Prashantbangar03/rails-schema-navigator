@@ -3,6 +3,7 @@ src/**
 scripts/**
 test/**
 out-test/**
+coverage/**
 .github/**
 tsconfig.json
 test/tsconfig.json
