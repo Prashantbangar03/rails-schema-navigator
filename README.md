@@ -42,7 +42,7 @@ Works in **VS Code** and **Cursor**. This extension is **Rails-only** (not Prism
 Or from the command line:
 
 ```bash
-code --install-extension <your-publisher>.rails-schema-explorer
+code --install-extension prashantbangar03.rails-schema-explorer
 ```
 
 ### From VSIX (teams / offline)
@@ -171,17 +171,58 @@ Press **F5** to launch an Extension Development Host.
 
 ## Publish to VS Code Marketplace
 
-Before your first publish:
+### 1. Create a publisher (one-time)
 
-1. Create a [publisher](https://marketplace.visualstudio.com/manage) at Visual Studio Marketplace
-2. Set `"publisher"` in `package.json` to your publisher ID (replace `"local"`)
-3. Optionally add `"repository"`, `"homepage"`, and `"bugs"` URLs
+1. Open [Visual Studio Marketplace — Manage Publishers](https://marketplace.visualstudio.com/manage)
+2. Sign in with your **Microsoft** account
+3. Click **Create publisher**
+4. Set **Publisher ID** to `prashantbangar03` (must match `package.json` → `"publisher"`)
+5. Fill in display name and save
+
+### 2. Create a Personal Access Token (one-time)
+
+1. Open [Azure DevOps — Personal Access Tokens](https://dev.azure.com/_usersSettings/tokens)
+2. Click **+ New Token**
+3. Name: `vscode-marketplace`
+4. Organization: **All accessible organizations**
+5. Expiration: choose a duration (e.g. 90 days or custom)
+6. Scopes: **Custom defined** → check **Marketplace** → **Manage**
+7. Create and **copy the token** (you won't see it again)
+
+### 3. Login and publish
+
+From the extension directory:
 
 ```bash
+cd schema-explorer-vscode
 npm run compile
-npx @vscode/vsce login <your-publisher>
+npx @vscode/vsce login prashantbangar03
+# paste your PAT when prompted
+
 npx @vscode/vsce publish
 ```
+
+Or publish in one step without saving the token:
+
+```bash
+npx @vscode/vsce publish -p <YOUR_PAT>
+```
+
+After publish, the extension will appear at:
+
+`https://marketplace.visualstudio.com/items?itemName=prashantbangar03.rails-schema-explorer`
+
+Users can install with:
+
+```bash
+code --install-extension prashantbangar03.rails-schema-explorer
+```
+
+### Updating a published version
+
+1. Bump `"version"` in `package.json` (semver, e.g. `1.0.1`)
+2. Commit, push to GitHub
+3. Run `npx @vscode/vsce publish` again
 
 ## Project layout
 
