@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<style>
+  :root {
+    --bg: #0a0e16; --panel: #0f1622; --line: #1c2740; --line-2: #243355;
+    --ink: #e6e8ee; --ink-mute: #8a93a6; --amber: #f5b54a; --teal: #5eead4; --violet: #a78bfa;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: ui-monospace, Menlo, monospace; font-size: 13px; color: var(--ink);
+    width: 1280px; height: 720px; background: #06080f; padding: 24px;
+  }
+  .frame {
+    height: 100%; border: 1px solid var(--line); border-radius: 8px; background: var(--bg);
+    padding: 28px 32px; box-shadow: 0 24px 80px rgba(0,0,0,.55);
+  }
+  h1 { font-size: 22px; font-weight: 500; margin-bottom: 20px; }
+  h1 .vs { color: var(--ink-mute); margin: 0 12px; }
+  h1 .name { color: var(--amber); }
+  .stats { display: flex; gap: 16px; margin-bottom: 20px; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-mute); }
+  .stats b { color: var(--amber); }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { padding: 8px 10px; border-bottom: 1px solid var(--line); text-align: left; }
+  th { color: var(--ink-mute); font-size: 10px; text-transform: uppercase; }
+  .diff { background: rgba(167,139,250,.06); }
+  .same { color: var(--ink-mute); }
+  .status { font-size: 10px; padding: 2px 8px; border-radius: 3px; border: 1px solid var(--line-2); }
+  .status.diff { color: var(--violet); border-color: #5b4a92; }
+  .status.same { color: var(--teal); border-color: var(--teal); opacity: .8; }
+  .cmp-type { color: var(--violet); }
+</style>
+</head>
+<body>
+  <div class="frame">
+    <h1><span class="name">entities</span><span class="vs">⟷</span><span class="name">templates</span></h1>
+    <div class="stats">
+      <span><b>8</b> shared</span>
+      <span><b>3</b> differ</span>
+      <span><b>2</b> only in entities</span>
+      <span><b>1</b> only in templates</span>
+    </div>
+    <table>
+      <thead>
+        <tr><th>column</th><th>entities</th><th>templates</th><th>status</th></tr>
+      </thead>
+      <tbody>
+        <tr class="diff"><td>status</td><td><span class="cmp-type">entity_status</span></td><td><span class="cmp-type">template_status</span></td><td><span class="status diff">≠ diff</span></td></tr>
+        <tr><td>name</td><td><span class="cmp-type">string</span> <span class="same">NOT NULL</span></td><td><span class="cmp-type">—</span></td><td><span class="status same">= same</span></td></tr>
+        <tr><td>version</td><td><span class="cmp-type">—</span></td><td><span class="cmp-type">string</span> <span class="same">NOT NULL</span></td><td><span class="status diff">B ▶</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

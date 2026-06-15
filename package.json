@@ -1,0 +1,138 @@
+{
+  "name": "rails-schema-explorer",
+  "displayName": "Rails Schema Explorer",
+  "description": "Interactive Rails schema explorer for db/structure.sql and db/schema.rb — tables, FKs, enums, views, and model integration.",
+  "version": "1.0.0",
+  "publisher": "local",
+  "icon": "images/icon.png",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Prashantbangar03/rails-schema-explorer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Prashantbangar03/rails-schema-explorer/issues"
+  },
+  "homepage": "https://github.com/Prashantbangar03/rails-schema-explorer#readme",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "rails",
+    "ruby",
+    "ruby on rails",
+    "postgresql",
+    "schema.rb",
+    "structure.sql",
+    "database",
+    "active record",
+    "foreign keys",
+    "migrations"
+  ],
+  "activationEvents": [
+    "onCommand:schemaExplorer.open",
+    "onCommand:schemaExplorer.openFromModel",
+    "onCommand:schemaExplorer.switchProject",
+    "onCommand:schemaExplorer.refresh",
+    "onWebviewPanel:schemaExplorerPanel",
+    "workspaceContains:**/db/structure.sql",
+    "workspaceContains:**/db/schema.rb"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "schemaExplorer.open",
+        "title": "Rails Schema: Open Explorer",
+        "category": "Rails Schema Explorer",
+        "icon": "$(database)"
+      },
+      {
+        "command": "schemaExplorer.openFromModel",
+        "title": "Rails Schema: Open Explorer for Model",
+        "category": "Rails Schema Explorer",
+        "icon": "$(database)"
+      },
+      {
+        "command": "schemaExplorer.findTable",
+        "title": "Rails Schema: Find Table",
+        "category": "Rails Schema Explorer",
+        "icon": "$(search)"
+      },
+      {
+        "command": "schemaExplorer.switchProject",
+        "title": "Rails Schema: Switch Project",
+        "category": "Rails Schema Explorer",
+        "icon": "$(repo)"
+      },
+      {
+        "command": "schemaExplorer.refresh",
+        "title": "Rails Schema: Refresh",
+        "category": "Rails Schema Explorer",
+        "icon": "$(refresh)"
+      }
+    ],
+    "configuration": {
+      "title": "Rails Schema Explorer",
+      "properties": {
+        "schemaExplorer.followEditor": {
+          "type": "boolean",
+          "default": true,
+          "description": "When enabled, the explorer switches schema projects as you change the active editor. When disabled, the active project stays pinned."
+        },
+        "schemaExplorer.showStatusBar": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show the active schema project in the status bar."
+        }
+      }
+    },
+    "menus": {
+      "editor/title": [
+        {
+          "command": "schemaExplorer.open",
+          "when": "resourceFilename == structure.sql || resourceFilename == schema.rb",
+          "group": "navigation"
+        },
+        {
+          "command": "schemaExplorer.openFromModel",
+          "when": "resourcePath =~ /app\\/models\\/.+\\.rb$/ && resourcePath !~ /concerns/",
+          "group": "navigation"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "schemaExplorer.open",
+        "key": "ctrl+alt+s",
+        "mac": "cmd+alt+s",
+        "when": "!terminalFocus"
+      },
+      {
+        "command": "schemaExplorer.findTable",
+        "key": "ctrl+shift+j",
+        "mac": "ctrl+shift+j",
+        "when": "!terminalFocus"
+      },
+      {
+        "command": "schemaExplorer.refresh",
+        "key": "ctrl+shift+r",
+        "mac": "cmd+shift+r",
+        "when": "activeWebviewPanelId == schemaExplorerPanel"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.85.0",
+    "typescript": "^5.3.0"
+  }
+}

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Schema Explorer Demo</title>
+<style>
+  :root {
+    --bg: #0a0e16; --panel: #0f1622; --line: #1c2740; --line-2: #243355;
+    --ink: #e6e8ee; --ink-mute: #8a93a6; --ink-dim: #5b6478;
+    --amber: #f5b54a; --amber-dim: #8a6520; --teal: #5eead4; --teal-dim: #2b6b62;
+    --rose: #f87171; --violet: #a78bfa;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: ui-monospace, 'JetBrains Mono', Menlo, monospace;
+    font-size: 13px; color: var(--ink); background: #06080f;
+    width: 1280px; height: 800px; overflow: hidden;
+    background-image:
+      radial-gradient(circle at 25% 8%, rgba(245,181,74,.05), transparent 50%),
+      radial-gradient(circle at 80% 90%, rgba(94,234,212,.04), transparent 55%);
+  }
+  .frame {
+    margin: 24px; height: calc(100% - 48px); border: 1px solid var(--line);
+    border-radius: 8px; overflow: hidden; display: grid;
+    grid-template-rows: 56px 32px 1fr; background: var(--bg);
+    box-shadow: 0 24px 80px rgba(0,0,0,.55);
+  }
+  .bar {
+    display: grid; grid-template-columns: 200px 1fr 120px; gap: 14px;
+    align-items: center; padding: 10px 18px; border-bottom: 1px solid var(--line);
+    background: linear-gradient(180deg, #0c111b, #0a0e16);
+  }
+  .brand .t1 { color: var(--ink); font-weight: 500; }
+  .brand .dot { color: var(--amber); font-weight: 700; }
+  .brand .t2 { color: var(--ink-mute); }
+  .brand small { display: block; color: var(--ink-dim); font-size: 10px; margin-top: 2px; text-transform: uppercase; letter-spacing: .08em; }
+  .search-group { display: grid; grid-template-columns: 30% 6px 70%; gap: 0; align-items: stretch; }
+  .search {
+    background: var(--panel); border: 1px solid var(--line-2); border-radius: 3px;
+    padding: 9px 12px; color: var(--ink-mute); font: inherit; font-size: 12px;
+  }
+  .search.main { border-color: var(--amber-dim); color: var(--ink); }
+  .stats { text-align: right; color: var(--ink-mute); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; }
+  .stats b { color: var(--amber); }
+  .trail {
+    display: flex; align-items: center; gap: 8px; padding: 0 18px;
+    border-bottom: 1px solid var(--line); background: var(--panel); font-size: 11px;
+  }
+  .trail .label { color: var(--ink-dim); text-transform: uppercase; letter-spacing: .12em; }
+  .chip { padding: 2px 10px; border: 1px solid var(--line); border-radius: 2px; color: var(--ink); }
+  .chip.cur { background: rgba(245,181,74,.08); border-color: var(--amber-dim); color: var(--amber); }
+  .sep { color: var(--ink-dim); }
+  .content { display: grid; grid-template-columns: 280px 6px 1fr; min-height: 0; }
+  .sidebar { background: rgba(15,22,34,.5); border-right: 1px solid var(--line); overflow: hidden; }
+  .sidehead {
+    padding: 12px 16px 8px; font-size: 10px; letter-spacing: .15em;
+    text-transform: uppercase; color: var(--ink-dim); border-bottom: 1px solid var(--line);
+    display: flex; justify-content: space-between;
+  }
+  .list li {
+    padding: 6px 16px; display: flex; justify-content: space-between; align-items: center;
+    border-left: 2px solid transparent; color: var(--ink);
+  }
+  .list li.active {
+    background: linear-gradient(90deg, rgba(245,181,74,.08), transparent 60%);
+    border-left-color: var(--amber); color: var(--amber);
+  }
+  .join { color: var(--rose); font-size: 11px; }
+  .resizer { background: transparent; position: relative; }
+  .resizer::before {
+    content: ''; position: absolute; left: 2px; top: 0; bottom: 0; width: 1px; background: var(--line);
+  }
+  .main { padding: 22px 32px; overflow: hidden; }
+  .main h1 { font-size: 22px; font-weight: 500; margin-bottom: 6px; }
+  .main h1 .schema { color: var(--ink-dim); }
+  .main h1 .name { color: var(--amber); }
+  .header {
+    display: flex; align-items: baseline; gap: 14px; padding-bottom: 14px;
+    margin-bottom: 18px; border-bottom: 1px solid var(--line);
+  }
+  .badge {
+    font-size: 10px; padding: 2px 8px; border-radius: 3px; border: 1px solid #7f3a3a;
+    color: var(--rose); background: rgba(248,113,113,.08); text-transform: uppercase; letter-spacing: .08em;
+  }
+  .pk { font-size: 11px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: .08em; }
+  .pk b { color: var(--teal); text-transform: none; letter-spacing: 0; }
+  .actions { margin-left: auto; display: flex; gap: 8px; }
+  .btn {
+    background: transparent; border: 1px solid var(--line-2); color: var(--ink);
+    padding: 7px 12px; border-radius: 2px; font: inherit; font-size: 12px;
+  }
+  .btn.primary { border-color: var(--amber-dim); color: var(--amber); }
+  .sechead {
+    display: flex; align-items: center; gap: 10px; font-size: 12px; font-weight: 600;
+    letter-spacing: .12em; text-transform: uppercase; margin-bottom: 12px;
+  }
+  .num {
+    color: var(--amber); border: 1px solid var(--amber-dim); padding: 1px 7px;
+    min-width: 24px; text-align: center; font-weight: 700;
+  }
+  .sechead::after { content: ''; flex: 1; border-top: 1px dashed var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  th, td { padding: 7px 10px; border-bottom: 1px solid var(--line); text-align: left; }
+  th { color: var(--ink-dim); font-size: 10px; text-transform: uppercase; letter-spacing: .1em; }
+  .col-type { color: var(--violet); }
+  .nn { color: var(--rose); font-size: 11px; }
+  .enum { color: var(--teal); font-size: 10px; }
+  .enum strong { font-weight: 700; color: var(--ink); }
+  .highlight td { background: rgba(245,181,74,.06); }
+  .mark { background: rgba(245,181,74,.25); color: var(--amber); padding: 0 2px; border-radius: 2px; }
+</style>
+</head>
+<body>
+  <div class="frame" id="frame">
+    <header class="bar">
+      <div class="brand">
+        <div><span class="t1">schema</span><span class="dot">.</span><span class="t2">explorer</span></div>
+        <small>db/structure.sql</small>
+      </div>
+      <div class="search-group">
+        <div class="search">connect-engine</div>
+        <div></div>
+        <div class="search main" id="searchBox">⌕ search… entities</div>
+      </div>
+      <div class="stats"><b>28</b> tables</div>
+    </header>
+    <div class="trail">
+      <span class="label">trail</span>
+      <span class="chip">channels</span><span class="sep">›</span>
+      <span class="chip cur">entities</span>
+    </div>
+    <div class="content">
+      <aside class="sidebar">
+        <div class="sidehead"><span>tables</span><span>28</span></div>
+        <ul class="list">
+          <li>apis</li>
+          <li class="active">entities</li>
+          <li>channels</li>
+          <li>apis_channels <span class="join">⇄</span></li>
+          <li>fields</li>
+          <li>templates</li>
+          <li>sellers</li>
+        </ul>
+        <div class="sidehead" style="margin-top:8px;border-top:1px solid var(--line)"><span>views</span><span>1</span></div>
+        <ul class="list"><li>active_listings</li></ul>
+      </aside>
+      <div class="resizer"></div>
+      <main class="main">
+        <div class="header">
+          <h1><span class="schema">public.</span><span class="name">entities</span></h1>
+          <span class="pk">primary key · <b>id</b></span>
+          <div class="actions">
+            <button class="btn">compare ⟷</button>
+            <button class="btn primary">open model</button>
+            <button class="btn">copy name</button>
+          </div>
+        </div>
+        <div class="sechead"><span class="num">12</span> columns</div>
+        <table>
+          <thead><tr><th>name</th><th>type</th><th>modifiers</th></tr></thead>
+          <tbody>
+            <tr class="highlight"><td>★ id</td><td class="col-type">uuid</td><td></td></tr>
+            <tr><td>↗ channel_id</td><td class="col-type">bigint</td><td><span class="nn">NOT NULL</span></td></tr>
+            <tr><td>↗ entity_type_id</td><td class="col-type">bigint</td><td><span class="nn">NOT NULL</span></td></tr>
+            <tr><td>name</td><td class="col-type">string</td><td><span class="nn">NOT NULL</span></td></tr>
+            <tr><td>status</td><td class="col-type">enum</td><td><span class="enum">pg enum · entity_status · <strong>active</strong> · <strong>deprecated</strong></span></td></tr>
+          </tbody>
+        </table>
+      </main>
+    </div>
+  </div>
+</body>
+</html>
